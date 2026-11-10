@@ -112,39 +112,42 @@ public class DataSimTile extends TileService {
         });
     }
 
+    /**
+     * Settled state = no glow. The pink "active" fill is used only while a
+     * switch is running (see busy()), so the tile reads as a button, not as a
+     * permanently lit indicator.
+     */
     private void apply(SimState st) {
         Tile t = getQsTile();
         if (t == null) {
             return;
         }
-        boolean on = st.mobileDataOn && st.rootOk();
-        t.setState(on ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        t.setState(Tile.STATE_INACTIVE);
         if (Build.VERSION.SDK_INT >= 29) {
+            t.setLabel(getString(R.string.tile_label));
             if (!st.rootOk()) {
-                t.setLabel("No root");
-                t.setSubtitle("SU check koro");
+                t.setSubtitle("No root");
             } else if (!st.mobileDataOn) {
-                t.setLabel("Data off");
-                t.setSubtitle(st.dataSimName());
+                t.setSubtitle("Data off");
             } else {
-                t.setLabel(st.dataSimName());
-                t.setSubtitle("Tap: switch SIM");
+                t.setSubtitle(st.dataSimName());
             }
         }
         t.setIcon(Icon.createWithResource(this, R.drawable.ic_tile));
         t.updateTile();
     }
 
+    /** In-flight state = pink glow, cleared by apply() when the switch ends. */
     private void busy(String targetName) {
         Tile t = getQsTile();
         if (t == null) {
             return;
         }
         if (Build.VERSION.SDK_INT >= 29) {
-            t.setLabel("Switching…");
-            t.setSubtitle("→ " + targetName);
+            t.setLabel(getString(R.string.tile_label));
+            t.setSubtitle("Switching → " + targetName);
         }
-        t.setState(Tile.STATE_UNAVAILABLE);
+        t.setState(Tile.STATE_ACTIVE);
         t.updateTile();
     }
 

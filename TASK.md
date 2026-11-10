@@ -32,3 +32,8 @@ NOW: fix pushed → waiting on CI run #2 → deliver repo + APK links.
 - `TileService.onLongClick()` does NOT exist in compileSdk 34 (added API 35) → never
   `@Override` it; Android 12 tiles have no long-press at all. Picker opens from the
   app icon (tile opens it too when root is missing).
+
+## Open change (2026-11-10, awaiting Morad's go)
+- Tile subtitle must show the SIM name that currently has data (not "Tap: switch SIM").
+- Pink glow (tile ACTIVE) must go off after the switch completes; glow only while busy.
+- Label stays "Data SIM" (app name). Then rebuild via CI + install.
