@@ -81,11 +81,9 @@ public class DataSimTile extends TileService {
         });
     }
 
-    @Override
-    public void onLongClick() {
-        super.onLongClick();
-        openApp();
-    }
+    // NOTE: TileService.onLongClick() only exists from API 35 — compileSdk 34
+    // rejects the override, and this phone is Android 12 anyway. The picker
+    // opens from the app icon (and from the tile when root is missing).
 
     private void openApp() {
         try {

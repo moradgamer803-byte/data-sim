@@ -12,9 +12,10 @@ Delivered as an APK through GitHub Actions.
 - [x] Scaffold `~/datasim` (gradle, manifest, Java, res, CI workflow)
 - [x] Static verification: XML parse + R refs + findViewById ids (all pass)
 - [x] javac type-check against generated Android stubs (0 errors)
-- [x] UI preview page with 3 directions → user picks
-- [ ] Apply the picked design to res/, re-run checks
-- [ ] git init + push to GitHub (token already in ~/.git-credentials)
+- [x] UI preview page with 3 directions → user picked **3 Warm Guard** (already the coded palette)
+- [x] Apply pick / re-run checks (palette matched; no res change needed)
+- [x] git init + push to GitHub → repo `moradgamer803-byte/data-sim`
+- [x] CI run #1 failed: `TileService.onLongClick()` is API 35+ → override removed (phone is Android 12 anyway)
 - [ ] Actions build green → deliver repo link + APK release URL
 
 ## Key facts
@@ -25,4 +26,9 @@ Delivered as an APK through GitHub Actions.
 - Build template copied from ~/routercontrol (AGP 8.5.2, Java 17, Material 1.12.0,
   workflow softprops/action-gh-release tag `apk-${{ github.run_number }}`).
 
-NOW: waiting on the user's design pick (1 Signal Slate / 2 Paper Switch / 3 Warm Guard).
+NOW: fix pushed → waiting on CI run #2 → deliver repo + APK links.
+
+## Lessons
+- `TileService.onLongClick()` does NOT exist in compileSdk 34 (added API 35) → never
+  `@Override` it; Android 12 tiles have no long-press at all. Picker opens from the
+  app icon (tile opens it too when root is missing).
